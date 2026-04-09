@@ -1,665 +1,296 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HojiMoments</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --cream: #F7F2EB;
-    --warm: #EDE3D5;
-    --hojicha: #8B5E3C;
-    --matcha: #5C7A4E;
-    --dark: #2A1F14;
-    --mid: #6B5240;
-    --light-text: #A08060;
-    --border: rgba(139,94,60,0.15);
-  }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--cream);
-    color: var(--dark);
-    overflow-x: hidden;
-  }
-
-  /* NAV */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 1.25rem 3rem;
-    background: rgba(247,242,235,0.92);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .nav-logo {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.35rem;
-    font-weight: 400;
-    letter-spacing: 0.12em;
-    color: var(--dark);
-    text-transform: uppercase;
-  }
-
-  .nav-logo span { color: var(--hojicha); }
-
-  .nav-links {
-    display: flex; gap: 2.5rem; list-style: none;
-  }
-
-  .nav-links a {
-    font-size: 0.78rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--mid);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-
-  .nav-links a:hover { color: var(--hojicha); }
-
-  .nav-cta {
-    background: var(--dark);
-    color: var(--cream) !important;
-    padding: 0.55rem 1.4rem;
-    border-radius: 100px;
-  }
-
-  .nav-cta:hover { background: var(--hojicha); color: var(--cream) !important; }
-
-  /* HERO */
-  .hero {
-    min-height: 100vh;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding-top: 80px;
-  }
-
-  .hero-left {
-    display: flex; flex-direction: column; justify-content: center;
-    padding: 5rem 4rem 5rem 5rem;
-  }
-
-  .hero-tag {
-    font-size: 0.72rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--hojicha);
-    margin-bottom: 1.5rem;
-    display: flex; align-items: center; gap: 0.75rem;
-  }
-
-  .hero-tag::before {
-    content: '';
-    display: inline-block;
-    width: 28px; height: 1px;
-    background: var(--hojicha);
-  }
-
-  .hero-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(3rem, 5vw, 4.5rem);
-    font-weight: 300;
-    line-height: 1.1;
-    color: var(--dark);
-    margin-bottom: 1.75rem;
-  }
-
-  .hero-title em {
-    font-style: italic;
-    color: var(--hojicha);
-  }
-
-  .hero-desc {
-    font-size: 1rem;
-    line-height: 1.75;
-    color: var(--mid);
-    max-width: 400px;
-    margin-bottom: 2.5rem;
-  }
-
-  .hero-buttons {
-    display: flex; gap: 1rem; align-items: center;
-  }
-
-  .btn-primary {
-    background: var(--dark);
-    color: var(--cream);
-    padding: 0.9rem 2rem;
-    border-radius: 100px;
-    font-size: 0.82rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    text-decoration: none;
-    transition: background 0.2s;
-  }
-
-  .btn-primary:hover { background: var(--hojicha); }
-
-  .btn-secondary {
-    font-size: 0.82rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--mid);
-    text-decoration: none;
-    display: flex; align-items: center; gap: 0.4rem;
-    border-bottom: 1px solid currentColor;
-    padding-bottom: 2px;
-  }
-
-  .hero-right {
-    background: var(--warm);
-    display: flex; align-items: center; justify-content: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero-visual {
-    width: 320px; height: 420px;
-    position: relative;
-  }
-
-  .bowl-wrap {
-    position: absolute;
-    bottom: 60px; left: 50%; transform: translateX(-50%);
-    width: 200px;
-  }
-
-  .bowl-shadow {
-    width: 160px; height: 24px;
-    background: rgba(42,31,20,0.1);
-    border-radius: 50%;
-    margin: 0 auto;
-  }
-
-  .bowl {
-    width: 200px; height: 100px;
-    background: linear-gradient(160deg, #C4956A, #A0714A);
-    border-radius: 0 0 100px 100px;
-    position: relative;
-    margin-bottom: 4px;
-  }
-
-  .bowl-rim {
-    width: 220px; height: 22px;
-    background: #B8845A;
-    border-radius: 50%;
-    margin: 0 auto;
-    position: relative; top: -4px; left: -10px;
-  }
-
-  .bowl-liquid {
-    position: absolute;
-    top: 12px; left: 12px; right: 12px;
-    height: 50px;
-    background: #6B4423;
-    border-radius: 50%;
-  }
-
-  .steam {
-    position: absolute;
-    top: -60px;
-    left: 50%; transform: translateX(-50%);
-    display: flex; gap: 16px;
-  }
-
-  .steam-line {
-    width: 2px; background: rgba(139,94,60,0.2);
-    animation: steamRise 2.5s ease-in-out infinite;
-    border-radius: 2px;
-  }
-
-  .steam-line:nth-child(1) { height: 40px; animation-delay: 0s; }
-  .steam-line:nth-child(2) { height: 55px; animation-delay: 0.4s; }
-  .steam-line:nth-child(3) { height: 35px; animation-delay: 0.8s; }
-
-  @keyframes steamRise {
-    0%, 100% { opacity: 0.2; transform: scaleY(0.8) translateY(0); }
-    50% { opacity: 0.6; transform: scaleY(1) translateY(-8px); }
-  }
-
-  .leaf-deco {
-    position: absolute;
-    font-family: serif;
-    color: var(--matcha);
-    opacity: 0.15;
-    font-size: 4rem;
-    user-select: none;
-  }
-
-  .leaf-1 { top: 40px; right: 30px; transform: rotate(-20deg); font-size: 5rem; }
-  .leaf-2 { top: 120px; left: 20px; transform: rotate(15deg); font-size: 3rem; }
-
-  .hero-badge {
-    position: absolute;
-    top: 2.5rem; right: 2.5rem;
-    width: 90px; height: 90px;
-    background: var(--dark);
-    border-radius: 50%;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    color: var(--cream);
-    text-align: center;
-  }
-
-  .hero-badge .badge-top {
-    font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase;
-    opacity: 0.7;
-  }
-
-  .hero-badge .badge-main {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 0.95rem; font-weight: 500;
-    line-height: 1.2;
-  }
-
-  /* PRODUCTS */
-  .section {
-    padding: 6rem 5rem;
-  }
-
-  .section-header {
-    display: flex; align-items: flex-end; justify-content: space-between;
-    margin-bottom: 3.5rem;
-  }
-
-  .section-label {
-    font-size: 0.72rem; letter-spacing: 0.2em;
-    text-transform: uppercase; color: var(--hojicha);
-    margin-bottom: 0.75rem;
-  }
-
-  .section-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 2.5rem; font-weight: 300;
-    line-height: 1.15;
-  }
-
-  .see-all {
-    font-size: 0.78rem; letter-spacing: 0.1em;
-    text-transform: uppercase; color: var(--mid);
-    text-decoration: none;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 2px;
-    white-space: nowrap;
-  }
-
-  .products-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-  }
-
-  .product-card {
-    background: var(--warm);
-    border-radius: 16px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: transform 0.25s;
-  }
-
-  .product-card:hover { transform: translateY(-4px); }
-
-  .product-img {
-    height: 240px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 5rem;
-    position: relative;
-  }
-
-  .product-img.matcha { background: #D8E8CF; }
-  .product-img.hojicha { background: #E8D5BE; }
-  .product-img.set { background: #E0D8C8; }
-
-  .product-tag {
-    position: absolute;
-    top: 1rem; left: 1rem;
-    font-size: 0.65rem; letter-spacing: 0.12em;
-    text-transform: uppercase;
-    padding: 0.3rem 0.75rem;
-    border-radius: 100px;
-  }
-
-  .tag-matcha { background: var(--matcha); color: #fff; }
-  .tag-hojicha { background: var(--hojicha); color: #fff; }
-  .tag-set { background: var(--dark); color: var(--cream); }
-
-  .product-info {
-    padding: 1.25rem 1.5rem 1.5rem;
-  }
-
-  .product-name {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.3rem; font-weight: 400;
-    margin-bottom: 0.35rem;
-  }
-
-  .product-desc {
-    font-size: 0.82rem; color: var(--mid);
-    line-height: 1.6; margin-bottom: 1rem;
-  }
-
-  .product-footer {
-    display: flex; align-items: center; justify-content: space-between;
-  }
-
-  .product-price {
-    font-size: 1rem; font-weight: 500;
-    color: var(--dark);
-  }
-
-  .add-btn {
-    width: 36px; height: 36px;
-    background: var(--dark);
-    color: var(--cream);
-    border: none; border-radius: 50%;
-    font-size: 1.2rem; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: background 0.2s;
-  }
-
-  .add-btn:hover { background: var(--hojicha); }
-
-  /* SPLIT SECTION */
-  .split {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    min-height: 520px;
-  }
-
-  .split-visual {
-    background: var(--dark);
-    display: flex; align-items: center; justify-content: center;
-    padding: 4rem;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .split-visual::before {
-    content: '茶';
-    position: absolute;
-    font-size: 18rem;
-    color: rgba(255,255,255,0.04);
-    font-family: serif;
-    right: -2rem; bottom: -2rem;
-  }
-
-  .split-stats {
-    display: flex; flex-direction: column; gap: 2rem;
-    position: relative; z-index: 1;
-  }
-
-  .stat { color: var(--cream); }
-
-  .stat-num {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 3rem; font-weight: 300;
-    color: var(--cream);
-    line-height: 1;
-    margin-bottom: 0.25rem;
-  }
-
-  .stat-label {
-    font-size: 0.8rem; letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: rgba(247,242,235,0.5);
-  }
-
-  .stat-divider {
-    width: 40px; height: 1px;
-    background: rgba(247,242,235,0.15);
-    margin-top: 1rem;
-  }
-
-  .split-content {
-    background: var(--warm);
-    display: flex; flex-direction: column; justify-content: center;
-    padding: 5rem;
-  }
-
-  .split-content .section-label { margin-bottom: 0.75rem; }
-
-  .split-content h2 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 2.2rem; font-weight: 300;
-    line-height: 1.2;
-    margin-bottom: 1.25rem;
-  }
-
-  .split-content p {
-    font-size: 0.95rem; line-height: 1.8;
-    color: var(--mid);
-    margin-bottom: 2rem;
-  }
-
-  /* FOOTER */
-  footer {
-    background: var(--dark);
-    padding: 4rem 5rem;
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
-    gap: 3rem;
-    color: rgba(247,242,235,0.6);
-  }
-
-  .footer-brand {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.4rem; font-weight: 300;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--cream);
-    margin-bottom: 1rem;
-  }
-
-  .footer-brand span { color: var(--hojicha); }
-
-  footer p { font-size: 0.82rem; line-height: 1.7; }
-
-  .footer-col h4 {
-    font-size: 0.72rem; letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--cream); margin-bottom: 1rem;
-  }
-
-  .footer-col ul { list-style: none; }
-  .footer-col li { margin-bottom: 0.6rem; }
-
-  .footer-col a {
-    font-size: 0.85rem; color: rgba(247,242,235,0.55);
-    text-decoration: none; transition: color 0.2s;
-  }
-
-  .footer-col a:hover { color: var(--cream); }
-
-  .footer-bottom {
-    background: var(--dark);
-    border-top: 1px solid rgba(255,255,255,0.06);
-    padding: 1.25rem 5rem;
-    display: flex; align-items: center; justify-content: space-between;
-  }
-
-  .footer-bottom p {
-    font-size: 0.75rem; color: rgba(247,242,235,0.3);
-  }
-</style>
+    <meta charset="UTF-8">
+    <title>HojiMoments – Japanischer Tee</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --bg: #3B2C26;      /* Dunkelbraun */
+            --text: #FFFFFF;    /* Weiß */
+            --accent: #D6C7B0;  /* Beige */
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(59,44,38,0.9);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(214,199,176,0.25);
+            z-index: 10;
+        }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .nav a {
+            margin-left: 24px;
+            text-decoration: none;
+            color: var(--text);
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        .nav a:hover {
+            opacity: 1;
+        }
+
+        .hero {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 160px 24px 120px;
+            text-align: center;
+            opacity: 0;
+            animation: fadeIn 1.2s ease forwards;
+        }
+
+        .eyebrow {
+            font-size: 0.8rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-size: clamp(2.6rem, 5vw, 3.8rem);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin-bottom: 16px;
+        }
+
+        h1 span {
+            color: var(--accent);
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.78);
+            max-width: 620px;
+            margin: 0 auto 32px;
+        }
+
+        .hero-actions {
+            display: inline-flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 26px;
+            border-radius: 999px;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: 0.25s ease;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #3B2C26;
+        }
+
+        .btn-primary:hover {
+            filter: brightness(1.05);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            border-color: rgba(214,199,176,0.6);
+            color: var(--accent);
+            background: transparent;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(214,199,176,0.08);
+        }
+
+        .meta {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .section {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 24px 80px;
+        }
+
+        .section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .section p {
+            color: rgba(255,255,255,0.8);
+            max-width: 640px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+            margin-top: 32px;
+        }
+
+        .card {
+            border-radius: 20px;
+            border: 1px solid rgba(214,199,176,0.35);
+            padding: 24px 22px;
+            background: rgba(0,0,0,0.08);
+            transition: 0.25s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 18px 40px rgba(0,0,0,0.35);
+        }
+
+        .card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+        }
+
+        .card p {
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.78);
+        }
+
+        footer {
+            border-top: 1px solid rgba(214,199,176,0.25);
+            padding: 32px 24px 40px;
+            text-align: center;
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+            margin-top: 40px;
+        }
+
+        footer span {
+            color: var(--accent);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(18px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 720px) {
+            header {
+                padding: 16px 18px;
+            }
+            .nav { display: none; }
+            .hero {
+                padding-top: 130px;
+            }
+        }
+    </style>
 </head>
 <body>
 
-<nav>
-  <div class="nav-logo">Hoji<span>Moments</span></div>
-  <ul class="nav-links">
-    <li><a href="#">Matcha</a></li>
-    <li><a href="#">Hojicha</a></li>
-    <li><a href="#">Sets</a></li>
-    <li><a href="#">Über uns</a></li>
-    <li><a href="#" class="nav-cta">Shop</a></li>
-  </ul>
-</nav>
+<header>
+    <div class="logo">Hoji<span>Moments</span></div>
+    <nav class="nav">
+        <a href="#philosophie">Philosophie</a>
+        <a href="#sorten">Sorten</a>
+        <a href="#kontakt">Kontakt</a>
+    </nav>
+</header>
 
-<!-- HERO -->
 <section class="hero">
-  <div class="hero-left">
-    <p class="hero-tag">Aus Japan, mit Sorgfalt</p>
-    <h1 class="hero-title">
-      Tee,<br>
-      der <em>Momente</em><br>
-      schafft.
-    </h1>
-    <p class="hero-desc">
-      Feinstes Matcha und Hojicha, direkt aus japanischen Teegärten. Für alle, die im Alltag kleine Rituale schätzen.
+    <div class="eyebrow">Japanische Teekultur, reduziert aufs Wesentliche</div>
+    <h1>Ruhige Momente in <span>Dunkelbraun</span> und Dampf.</h1>
+    <p class="subtitle">
+        Matcha und Hojicha aus Japan – in einer klaren, minimalistischen Form gedacht.
+        Für Menschen, die Tee als Ritual und nicht als Produkt sehen.
     </p>
-    <div class="hero-buttons">
-      <a href="#" class="btn-primary">Jetzt entdecken</a>
-      <a href="#" class="btn-secondary">Unsere Geschichte →</a>
+
+    <div class="hero-actions">
+        <a href="#" class="btn btn-primary">Shop bald verfügbar</a>
+        <a href="mailto:info@hojimoments.ch" class="btn btn-secondary">Vorab kontaktieren</a>
     </div>
-  </div>
-  <div class="hero-right">
-    <div class="hero-badge">
-      <span class="badge-top">100%</span>
-      <span class="badge-main">Bio-<br>zertifiziert</span>
+
+    <div class="meta">
+        Versand aus der Schweiz · Kleine Batches · Bewusst ausgewählt
     </div>
-    <div class="hero-visual">
-      <div class="leaf-deco leaf-1">🍃</div>
-      <div class="leaf-deco leaf-2">🌿</div>
-      <div class="bowl-wrap">
-        <div class="bowl-rim"></div>
-        <div class="bowl">
-          <div class="bowl-liquid"></div>
-          <div class="steam">
-            <div class="steam-line"></div>
-            <div class="steam-line"></div>
-            <div class="steam-line"></div>
-          </div>
-        </div>
-        <div class="bowl-shadow"></div>
-      </div>
-    </div>
-  </div>
 </section>
 
-<!-- PRODUCTS -->
-<section class="section">
-  <div class="section-header">
-    <div>
-      <p class="section-label">Unsere Auswahl</p>
-      <h2 class="section-title">Für jeden Moment<br>das Richtige.</h2>
-    </div>
-    <a href="#" class="see-all">Alle Produkte →</a>
-  </div>
-
-  <div class="products-grid">
-    <div class="product-card">
-      <div class="product-img matcha">
-        <span class="product-tag tag-matcha">Matcha</span>
-        🍵
-      </div>
-      <div class="product-info">
-        <p class="product-name">Matcha Zeremonie</p>
-        <p class="product-desc">Frisch, vegetal und cremig. Unser Klassiker für die tägliche Teezeremonie.</p>
-        <div class="product-footer">
-          <span class="product-price">CHF 24.90</span>
-          <button class="add-btn">+</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="product-card">
-      <div class="product-img hojicha">
-        <span class="product-tag tag-hojicha">Hojicha</span>
-        🫖
-      </div>
-      <div class="product-info">
-        <p class="product-name">Hojicha Abend</p>
-        <p class="product-desc">Geröstet, warm und nussig. Der perfekte Begleiter für ruhige Abende.</p>
-        <div class="product-footer">
-          <span class="product-price">CHF 19.90</span>
-          <button class="add-btn">+</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="product-card">
-      <div class="product-img set">
-        <span class="product-tag tag-set">Set</span>
-        🎋
-      </div>
-      <div class="product-info">
-        <p class="product-name">Starter Set</p>
-        <p class="product-desc">Matcha & Hojicha mit Zubehör. Alles, was du für den Einstieg brauchst.</p>
-        <div class="product-footer">
-          <span class="product-price">CHF 49.90</span>
-          <button class="add-btn">+</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SPLIT SECTION -->
-<div class="split">
-  <div class="split-visual">
-    <div class="split-stats">
-      <div class="stat">
-        <p class="stat-num">100%</p>
-        <p class="stat-label">Bio-zertifiziert</p>
-        <div class="stat-divider"></div>
-      </div>
-      <div class="stat">
-        <p class="stat-num">Uji</p>
-        <p class="stat-label">Herkunft, Japan</p>
-        <div class="stat-divider"></div>
-      </div>
-      <div class="stat">
-        <p class="stat-num">24h</p>
-        <p class="stat-label">Versand in die Schweiz</p>
-      </div>
-    </div>
-  </div>
-  <div class="split-content">
-    <p class="section-label">Unsere Philosophie</p>
-    <h2>Qualität, die<br>man schmeckt.</h2>
+<section class="section" id="philosophie">
+    <h2>Philosophie</h2>
     <p>
-      Wir glauben, dass ein guter Tee keine Kompromisse kennt. Deshalb beziehen wir unseren Matcha und Hojicha direkt von japanischen Teebauern, die Generationen lang ihr Handwerk perfektioniert haben.
+        HojiMoments steht für Ruhe, Reduktion und Qualität. Kein Überladen, kein Lärm – weder im Design noch im Geschmack.
+        Jeder Tee ist bewusst ausgewählt, schonend verarbeitet und soll dir helfen, deinen Alltag für einen Moment zu verlangsamen.
     </p>
-    <a href="#" class="btn-primary" style="align-self: flex-start;">Mehr erfahren</a>
-  </div>
-</div>
+</section>
 
-<!-- FOOTER -->
+<section class="section" id="sorten">
+    <h2>Sorten</h2>
+    <p>
+        Zwei Tees, zwei Stimmungen – beide in deinem Rhythmus.
+    </p>
+
+    <div class="grid">
+        <div class="card">
+            <h3>Matcha</h3>
+            <p>Fein vermahlener Grüntee für klare Energie, Fokus und Präsenz – ohne hektischen Koffein‑Peak.</p>
+        </div>
+        <div class="card">
+            <h3>Hojicha</h3>
+            <p>Gerösteter Grüntee mit warmen, nussigen Noten – ideal für Abende und ruhige Gespräche.</p>
+        </div>
+        <div class="card">
+            <h3>Rituale</h3>
+            <p>Minimalistische Rituale, die du in deinen Alltag integrieren kannst – 5 Minuten, eine Tasse, ein bewusster Moment.</p>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="kontakt">
+    <h2>Kontakt</h2>
+    <p>
+        Du möchtest HojiMoments in deinem Café, Büro oder Store einsetzen?  
+        Schreib uns eine kurze Nachricht – wir melden uns persönlich.
+    </p>
+    <p style="margin-top: 12px; font-weight: 500;">
+        <a href="mailto:info@hojimoments.ch" style="color: var(--accent); text-decoration: none;">
+            info@hojimoments.ch
+        </a>
+    </p>
+</section>
+
 <footer>
-  <div>
-    <p class="footer-brand">Hoji<span>Moments</span></p>
-    <p>Wir bringen die japanische Teekultur in deinen Alltag — mit Matcha und Hojicha von höchster Qualität.</p>
-  </div>
-  <div class="footer-col">
-    <h4>Shop</h4>
-    <ul>
-      <li><a href="#">Matcha</a></li>
-      <li><a href="#">Hojicha</a></li>
-      <li><a href="#">Sets & Zubehör</a></li>
-      <li><a href="#">Neuheiten</a></li>
-    </ul>
-  </div>
-  <div class="footer-col">
-    <h4>Info</h4>
-    <ul>
-      <li><a href="#">Über uns</a></li>
-      <li><a href="#">Rezepte</a></li>
-      <li><a href="#">Kontakt</a></li>
-      <li><a href="#">Datenschutz</a></li>
-    </ul>
-  </div>
+    © 2026 Hoji<span>Moments</span> – Dunkelbraune Ruhe, direkt aus der Schweiz.
 </footer>
-<div class="footer-bottom">
-  <p>© 2025 HojiMoments · Alle Rechte vorbehalten</p>
-  <p>Mit Liebe aus der Schweiz 🇨🇭</p>
-</div>
 
 </body>
 </html>
